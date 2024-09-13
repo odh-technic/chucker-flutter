@@ -66,7 +66,7 @@ class ChuckerHttpClient extends BaseClient {
 
     final interceptedResponse = onResponse(response);
 
-    if (ChuckerFlutter.isDebugMode || ChuckerFlutter.showOnRelease) {
+    if (ChuckerFlutter.enable) {
       ChuckerUiHelper.showNotification(
         method: interceptedRequest.method,
         statusCode: interceptedResponse.statusCode,

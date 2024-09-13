@@ -142,14 +142,14 @@ class ChuckerFlutter {
   static bool showOnRelease = false;
 
   ///[isDebugMode] A wrapper of Flutter's `kDebugMode` constant
-  static bool isDebugMode = kDebugMode;
+  static bool enable = false;
 
   ///[showNotification] decides whether to show in app notification or not
   ///By default its value is `true`
   static bool showNotification = true;
 
   ///[ChuckerButton] can be placed anywhere in the UI to open Chucker Screen
-  static final chuckerButton = isDebugMode || ChuckerFlutter.showOnRelease
+  static final chuckerButton = enable
       ? ChuckerButton.getInstance()
       : const SizedBox.shrink();
 

@@ -24,12 +24,12 @@ class ChuckerDioInterceptor extends Interceptor {
     Response<dynamic> response,
     ResponseInterceptorHandler handler,
   ) async {
-    await SharedPreferencesManager.getInstance().getSettings();
-
-    if (!ChuckerFlutter.isDebugMode && !ChuckerFlutter.showOnRelease) {
+    if (!ChuckerFlutter.enable) {
       handler.next(response);
       return;
     }
+
+    await SharedPreferencesManager.getInstance().getSettings();
 
     final method = response.requestOptions.method;
     final statusCode = response.statusCode ?? -1;
@@ -53,12 +53,13 @@ class ChuckerDioInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    await SharedPreferencesManager.getInstance().getSettings();
-
-    if (!ChuckerFlutter.isDebugMode && !ChuckerFlutter.showOnRelease) {
+    if (!ChuckerFlutter.enable) {
       handler.next(err);
       return;
     }
+
+    await SharedPreferencesManager.getInstance().getSettings();
+
     final method = err.requestOptions.method;
     final statusCode = err.response?.statusCode ?? -1;
     final path = err.requestOptions.path;
@@ -83,16 +84,13 @@ class ChuckerDioInterceptor extends Interceptor {
         baseUrl: response.requestOptions.baseUrl,
         method: response.requestOptions.method,
         statusCode: response.statusCode ?? -1,
-        connectionTimeout:
-            response.requestOptions.connectTimeout?.inMilliseconds ?? 0,
+        connectionTimeout: response.requestOptions.connectTimeout?.inMilliseconds ?? 0,
         contentType: response.requestOptions.contentType,
         // headers: response.requestOptions.headers.toString(),
         headers: response.requestOptions.headers.cast<String, String>(),
         // queryParameters: response.requestOptions.queryParameters.toString(),
-        queryParameters:
-            response.requestOptions.queryParameters.cast<String, String>(),
-        receiveTimeout:
-            response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
+        queryParameters: response.requestOptions.queryParameters.cast<String, String>(),
+        receiveTimeout: response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
         request: _separateFileObjects(response.requestOptions).data,
         requestSize: 2,
         requestTime: _requestTime,
@@ -122,14 +120,11 @@ class ChuckerDioInterceptor extends Interceptor {
         baseUrl: response.requestOptions.baseUrl,
         method: response.requestOptions.method,
         statusCode: response.response?.statusCode ?? -1,
-        connectionTimeout:
-            response.requestOptions.connectTimeout?.inMilliseconds ?? 0,
+        connectionTimeout: response.requestOptions.connectTimeout?.inMilliseconds ?? 0,
         contentType: response.requestOptions.contentType,
         headers: response.requestOptions.headers.cast<String, String>(),
-        queryParameters:
-            response.requestOptions.queryParameters.cast<String, String>(),
-        receiveTimeout:
-            response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
+        queryParameters: response.requestOptions.queryParameters.cast<String, String>(),
+        receiveTimeout: response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
         request: _separateFileObjects(response.requestOptions).data,
         requestSize: 2,
         requestTime: _requestTime,

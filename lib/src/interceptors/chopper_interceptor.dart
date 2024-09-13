@@ -101,7 +101,7 @@ class ChuckerChopperInterceptor implements Interceptor {
     final time = DateTime.now();
     await SharedPreferencesManager.getInstance().getSettings();
 
-    if (ChuckerFlutter.isDebugMode || ChuckerFlutter.showOnRelease) {
+    if (ChuckerFlutter.enable) {
       ChuckerUiHelper.showNotification(
         method: response.base.request?.method ?? '',
         statusCode: response.statusCode,
