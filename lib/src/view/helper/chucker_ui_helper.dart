@@ -36,27 +36,27 @@ class ChuckerUiHelper {
     notificationShown = false;
 
     if (!ChuckerUiHelper.settings.showNotification) {
-      debugPrint(
-        '''
-ChuckerFlutter: Your notification setting is off. You can turn it on by visiting the settings page from Chucker Flutter screen.
-        ''',
-      );
+//       debugPrint(
+//         '''
+// ChuckerFlutter: Your notification setting is off. You can turn it on by visiting the settings page from Chucker Flutter screen.
+//         ''',
+//       );
       return false;
     }
     if (ChuckerFlutter.navigatorObserver.navigator == null) {
-      debugPrint(
-        '''
-ChuckerFlutter: You didn't add ChuckerFlutter.navigatorObserver in your material app. Visit https://github.com/syedmurtaza108/chucker-flutter#getting-started for Chucker Integration details.
-        ''',
-      );
+//       debugPrint(
+//         '''
+// ChuckerFlutter: You didn't add ChuckerFlutter.navigatorObserver in your material app. Visit https://github.com/syedmurtaza108/chucker-flutter#getting-started for Chucker Integration details.
+//         ''',
+//       );
       return false;
     }
     if (!ChuckerFlutter.showNotification) {
-      debugPrint(
-        '''
-ChuckerFlutter: You programmatically vetoed notification behavior. Make sure to remove `ChuckerFlutter.showNotification = true` to continue receiving notifications.
-        ''',
-      );
+//       debugPrint(
+//         '''
+// ChuckerFlutter: You programmatically vetoed notification behavior. Make sure to remove `ChuckerFlutter.showNotification = true` to continue receiving notifications.
+//         ''',
+//       );
       return false;
     }
 
