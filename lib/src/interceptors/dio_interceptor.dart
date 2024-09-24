@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:chucker_flutter/src/helpers/constants.dart';
 import 'package:chucker_flutter/src/helpers/shared_preferences_manager.dart';
@@ -29,22 +28,25 @@ class ChuckerDioInterceptor extends Interceptor {
       return;
     }
 
-    await SharedPreferencesManager.getInstance().getSettings();
+    try {
+      await SharedPreferencesManager.getInstance().getSettings();
 
-    final method = response.requestOptions.method;
-    final statusCode = response.statusCode ?? -1;
-    final path = response.requestOptions.path;
+      final method = response.requestOptions.method;
+      final statusCode = response.statusCode ?? -1;
+      final path = response.requestOptions.path;
 
-    ChuckerUiHelper.showNotification(
-      method: method,
-      statusCode: statusCode,
-      path: path,
-      requestTime: _requestTime,
-    );
+      ChuckerUiHelper.showNotification(
+        method: method,
+        statusCode: statusCode,
+        path: path,
+        requestTime: _requestTime,
+      );
 
-    await _saveResponse(response);
+      await _saveResponse(response);
+    } catch (e) {
+      //
+    }
 
-    log('ChuckerFlutter: $method:$path - $statusCode saved.');
     handler.next(response);
   }
 
@@ -58,21 +60,25 @@ class ChuckerDioInterceptor extends Interceptor {
       return;
     }
 
-    await SharedPreferencesManager.getInstance().getSettings();
+    try {
+      await SharedPreferencesManager.getInstance().getSettings();
 
-    final method = err.requestOptions.method;
-    final statusCode = err.response?.statusCode ?? -1;
-    final path = err.requestOptions.path;
+      final method = err.requestOptions.method;
+      final statusCode = err.response?.statusCode ?? -1;
+      final path = err.requestOptions.path;
 
-    ChuckerUiHelper.showNotification(
-      method: method,
-      statusCode: statusCode,
-      path: path,
-      requestTime: _requestTime,
-    );
-    await _saveError(err);
+      ChuckerUiHelper.showNotification(
+        method: method,
+        statusCode: statusCode,
+        path: path,
+        requestTime: _requestTime,
+      );
 
-    log('ChuckerFlutter: $method:$path - $statusCode saved.');
+      await _saveError(err);
+    } catch (e) {
+      //
+    }
+
     handler.next(err);
   }
 
