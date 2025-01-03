@@ -28,6 +28,11 @@ class ChuckerDioInterceptor extends Interceptor {
       return;
     }
 
+    if (response.requestOptions.responseType == ResponseType.bytes) {
+      handler.next(response);
+      return;
+    }
+
     try {
       await SharedPreferencesManager.getInstance().getSettings();
 
