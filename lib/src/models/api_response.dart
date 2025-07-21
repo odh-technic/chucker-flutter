@@ -13,6 +13,7 @@ class ApiResponse {
     required this.connectionTimeout,
     required this.contentType,
     required this.headers,
+    required this.responseHeaders,
     required this.queryParameters,
     required this.receiveTimeout,
     required this.request,
@@ -40,6 +41,7 @@ class ApiResponse {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Headers': '*',
         },
+        responseHeaders: {},
         queryParameters: {},
         receiveTimeout: 0,
         request: {'': ''},
@@ -62,6 +64,7 @@ class ApiResponse {
         connectionTimeout: json['connectionTimeout'] as int,
         contentType: json['contentType'] as String?,
         headers: _parseMap(json['headers']),
+        responseHeaders: _parseMap(json['responseHeaders']),
         queryParameters: _parseMap(json['queryParameters']),
         receiveTimeout: json['receiveTimeout'] as int,
         request: json['request'] as dynamic,
@@ -128,7 +131,11 @@ class ApiResponse {
 
   /// Request headers
   /// Headers parsed as a Map<String, String>
-  final Map<String, String> headers;
+  final Map<String, dynamic> headers;
+
+  /// Response headers
+  /// Headers parsed as a Map<String, String>
+  final Map<String, dynamic> responseHeaders;
 
   /// Timeout in milliseconds for sending data
   final int sendTimeout;
@@ -175,8 +182,8 @@ class ApiResponse {
     // Construct the full URL manually
     final queryParams = queryParameters.isNotEmpty
         ? queryParameters.entries.map((e) {
-            final key = Uri.encodeComponent(e.key);
-            final value = Uri.encodeComponent(e.value.toString());
+            final key = Uri.decodeComponent(e.key);
+            final value = Uri.decodeComponent(e.value.toString());
             return '$key=$value';
           }).join('&')
         : '';
@@ -196,6 +203,7 @@ class ApiResponse {
       'connectionTimeout': connectionTimeout,
       'contentType': contentType,
       'headers': headers,
+      'responseHeaders': responseHeaders,
       'method': method,
       'queryParameters': queryParameters,
       'receiveTimeout': receiveTimeout,
@@ -228,7 +236,8 @@ class ApiResponse {
     String? response,
     dynamic body,
     String? contentType,
-    Map<String, String>? headers,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? responseHeaders,
     int? sendTimeout,
     String? responseType,
     int? receiveTimeout,
@@ -246,6 +255,7 @@ class ApiResponse {
       connectionTimeout: connectionTimeout ?? this.connectionTimeout,
       contentType: contentType ?? this.contentType,
       headers: headers ?? this.headers,
+      responseHeaders: responseHeaders ?? this.responseHeaders,
       queryParameters: queryParameters ?? this.queryParameters,
       receiveTimeout: receiveTimeout ?? this.receiveTimeout,
       request: request ?? this.request,
@@ -271,6 +281,7 @@ Status Code: $statusCode
 Request Time: $requestTime
 Response Time: $responseTime
 Headers: $headers
+responseHeaders: $responseHeaders
 Query Params: $queryParameters
 Content Type: $contentType
 Response Type: $responseType

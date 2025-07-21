@@ -97,11 +97,12 @@ class ChuckerDioInterceptor extends Interceptor {
         statusCode: response.statusCode ?? -1,
         connectionTimeout: response.requestOptions.connectTimeout?.inMilliseconds ?? 0,
         contentType: response.requestOptions.contentType,
-        // headers: response.requestOptions.headers.toString(),
-        headers: response.requestOptions.headers.cast<String, String>(),
-        // queryParameters: response.requestOptions.queryParameters.toString(),
-        queryParameters: response.requestOptions.queryParameters.cast<String, String>(),
-        receiveTimeout: response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
+        headers: response.requestOptions.headers.cast<String, dynamic>(),
+        responseHeaders: response.headers.map.cast<String, dynamic>(),
+        queryParameters:
+            response.requestOptions.queryParameters.cast<String, dynamic>(),
+        receiveTimeout:
+            response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
         request: _separateFileObjects(response.requestOptions).data,
         requestSize: 2,
         requestTime: _requestTime,
@@ -133,9 +134,12 @@ class ChuckerDioInterceptor extends Interceptor {
         statusCode: response.response?.statusCode ?? -1,
         connectionTimeout: response.requestOptions.connectTimeout?.inMilliseconds ?? 0,
         contentType: response.requestOptions.contentType,
-        headers: response.requestOptions.headers.cast<String, String>(),
-        queryParameters: response.requestOptions.queryParameters.cast<String, String>(),
-        receiveTimeout: response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
+        headers: response.requestOptions.headers.cast<String, dynamic>(),
+        responseHeaders: {},
+        queryParameters:
+            response.requestOptions.queryParameters.cast<String, dynamic>(),
+        receiveTimeout:
+            response.requestOptions.receiveTimeout?.inMilliseconds ?? 0,
         request: _separateFileObjects(response.requestOptions).data,
         requestSize: 2,
         requestTime: _requestTime,
