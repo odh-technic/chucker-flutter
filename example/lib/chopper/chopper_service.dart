@@ -40,7 +40,7 @@ abstract class ChopperApiService extends ChopperService {
         _$ChopperApiService(),
       ],
       interceptors: [
-        ChuckerHttpLoggingInterceptor(),
+        // ChuckerHttpLoggingInterceptor(),
         ChuckerChopperInterceptor(),
       ],
     );
